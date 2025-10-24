@@ -2,7 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:wonders/common_libs.dart';
 import 'package:wonders/logic/common/platform_info.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+import 'package:media_kit/media_kit.dart';
+import 'package:media_kit_video/media_kit_video.dart'; 
 
 class FullscreenVideoViewer extends StatefulWidget {
   const FullscreenVideoViewer({super.key, required this.id});
@@ -13,11 +14,10 @@ class FullscreenVideoViewer extends StatefulWidget {
 }
 
 class _FullscreenVideoViewerState extends State<FullscreenVideoViewer> {
-  late final _controller = YoutubePlayerController.fromVideoId(
-    videoId: widget.id,
-    params: const YoutubePlayerParams(),
-  );
-
+  bool isPlaying = false;
+  // Create a [VideoController] to handle video output from [Player].
+  late final player = Player();
+  late final controller = VideoController(player);
   bool get _enableVideo => PlatformInfo.isMobile;
 
   @override
@@ -25,6 +25,18 @@ class _FullscreenVideoViewerState extends State<FullscreenVideoViewer> {
     super.initState();
     appLogic.supportedOrientationsOverride = [Axis.horizontal, Axis.vertical];
     RawKeyboard.instance.addListener(_handleKeyDown);
+    print("HELLLLO https://www.youtube.com/watch?v=${widget.id}");
+    final playable = Media("https://user-images.githubusercontent.com/28951144/229373695-22f88f13-d18f-4288-9bf1-c3e078d83722.mp4");
+    player.open(playable, play: false);
+    player.stream.playing.listen(
+     (bool playing) {
+       if (playing) {
+         isPlaying = true;
+       } else {
+         isPlaying = false;
+       }
+     },
+   );
   }
 
   @override
@@ -32,6 +44,7 @@ class _FullscreenVideoViewerState extends State<FullscreenVideoViewer> {
     // when view closes, remove the override
     appLogic.supportedOrientationsOverride = null;
     RawKeyboard.instance.removeListener(_handleKeyDown);
+    player.dispose();
     super.dispose();
   }
 
@@ -41,11 +54,10 @@ class _FullscreenVideoViewerState extends State<FullscreenVideoViewer> {
       final k = value.logicalKey;
       if (k == LogicalKeyboardKey.enter || k == LogicalKeyboardKey.space) {
         if (_enableVideo) {
-          final state = await _controller.playerState;
-          if (state == PlayerState.playing) {
-            _controller.pauseVideo();
+          if (isPlaying) {
+            player.pause();
           } else {
-            _controller.playVideo();
+            player.play();
           }
         }
       }
@@ -61,10 +73,7 @@ class _FullscreenVideoViewerState extends State<FullscreenVideoViewer> {
         children: [
           Center(
             child: (PlatformInfo.isMobile || kIsWeb)
-                ? YoutubePlayer(
-                    controller: _controller,
-                    aspectRatio: aspect,
-                  )
+                ? Video(controller: controller)
                 : Placeholder(),
           ),
           SafeArea(

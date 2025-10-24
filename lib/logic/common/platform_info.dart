@@ -5,8 +5,8 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:wonders/common_libs.dart';
 
 class PlatformInfo {
-  static const _desktopPlatforms = [TargetPlatform.macOS, TargetPlatform.windows, TargetPlatform.linux];
-  static const _mobilePlatforms = [TargetPlatform.android, TargetPlatform.iOS];
+  static const _desktopPlatforms = [TargetPlatform.macOS, TargetPlatform.windows];
+  static const _mobilePlatforms = [TargetPlatform.android, TargetPlatform.iOS, TargetPlatform.linux];
 
   static bool get isDesktop => _desktopPlatforms.contains(defaultTargetPlatform) && !kIsWeb;
   static bool get isDesktopOrWeb => isDesktop || kIsWeb;
