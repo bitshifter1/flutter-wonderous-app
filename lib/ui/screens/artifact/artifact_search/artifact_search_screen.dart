@@ -7,6 +7,7 @@ import 'package:wonders/ui/common/controls/app_header.dart';
 import 'package:wonders/ui/common/static_text_scale.dart';
 import 'package:wonders/ui/common/utils/app_haptics.dart';
 import 'package:wonders/ui/screens/artifact/artifact_search/time_range_selector/expanding_time_range_selector.dart';
+import 'package:virtual_keyboard_multi_language/virtual_keyboard_multi_language.dart';
 
 part 'widgets/_result_tile.dart';
 part 'widgets/_results_grid.dart';

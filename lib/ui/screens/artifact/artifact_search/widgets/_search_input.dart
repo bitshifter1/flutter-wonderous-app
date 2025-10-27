@@ -1,3 +1,4 @@
+
 part of '../artifact_search_screen.dart';
 
 /// Autopopulating textfield used for searching for Artifacts by name.
@@ -132,24 +133,38 @@ class _SearchInput extends StatelessWidget {
         children: [
           Gap($styles.insets.xs * 1.5),
           Icon(Icons.search, color: captionColor),
-          Expanded(
-            child: TextField(
-              onSubmitted: onSubmit,
-              controller: textController,
-              focusNode: focusNode,
-              style: TextStyle(color: $styles.colors.greyStrong),
-              textAlignVertical: TextAlignVertical.top,
-              decoration: InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsets.all($styles.insets.xs),
-                labelStyle: TextStyle(color: captionColor),
-                hintStyle: TextStyle(color: $styles.colors.body),
-                prefixStyle: TextStyle(color: captionColor),
-                focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
-                enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
-                hintText: $strings.searchInputHintSearch,
+          Column(
+          children: [
+            Expanded(
+              child: TextField(
+                onSubmitted: onSubmit,
+                controller: textController,
+                readOnly: true,
+                focusNode: focusNode,
+                style: TextStyle(color: $styles.colors.greyStrong),
+                textAlignVertical: TextAlignVertical.top,
+                decoration: InputDecoration(
+                  isDense: true,
+                  contentPadding: EdgeInsets.all($styles.insets.xs),
+                  labelStyle: TextStyle(color: captionColor),
+                  hintStyle: TextStyle(color: $styles.colors.body),
+                  prefixStyle: TextStyle(color: captionColor),
+                  focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
+                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                  hintText: $strings.searchInputHintSearch,
+                ),
               ),
             ),
+            VirtualKeyboard(
+              height: 300,
+              textColor: Colors.black,
+              textController: textController,
+              type: VirtualKeyboardType.Alphanumeric,
+              postKeyPress: (key) {
+                  textController.text += key.text!;
+              },
+            ),
+           ],
           ),
           Gap($styles.insets.xs),
           ValueListenableBuilder(
