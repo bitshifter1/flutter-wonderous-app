@@ -87,7 +87,7 @@ class _CollapsingPullQuoteImage extends StatelessWidget {
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 24),
                     child: BlendMask(
-                      blendModes: const [BlendMode.colorBurn],
+                      blendModes: const [BlendMode.srcOver],
                       child: StaticTextScale(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -133,7 +133,7 @@ class _CollapsingPullQuoteImage extends StatelessWidget {
             Color(0xFFA6958C).withOpacity(1),
           ],
           const [0.0, 1.0],
-          blendMode: BlendMode.colorBurn,
+          blendMode: BlendMode.srcOver,
         ),
       ],
     );
