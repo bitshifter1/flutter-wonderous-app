@@ -12,15 +12,17 @@ import 'package:wonders/logic/timeline_logic.dart';
 import 'package:wonders/logic/unsplash_logic.dart';
 import 'package:wonders/logic/wonders_logic.dart';
 import 'package:wonders/ui/common/app_shortcuts.dart';
+import 'package:flutterpi_gstreamer_video_player/flutterpi_gstreamer_video_player.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   // Keep native splash screen up until app is finished bootstrapping
+  FlutterpiVideoPlayer.registerWith();
   if (!kIsWeb) {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   }
   GoRouter.optionURLReflectsImperativeAPIs = true;
-
+  print('flutter-pi DPR: ${WidgetsBinding.instance.window.devicePixelRatio}');
   // Start app
   registerSingletons();
 
